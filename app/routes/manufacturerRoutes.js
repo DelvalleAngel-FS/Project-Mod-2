@@ -1,45 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const {
+  createManufacturers,
+  updateManufacturer,
+  deleteManufacturer,
+  getALLManufacturers,
+  getManufacturerById,
+} = require("../controller/manufacturerController");
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
-});
+router.get("/", getALLManufacturers);
 
-router.post("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
-});
+router.post("/", createManufacturers);
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  res.status(200).json({
-    id,
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
-});
+router.get("/:id", getManufacturerById);
 
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  res.status(200).json({
-    id,
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
-});
+router.put("/:id", updateManufacturer);
 
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  res.status(200).json({
-    id,
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
-});
+router.delete("/:id", deleteManufacturer);
 
 module.exports = router;
