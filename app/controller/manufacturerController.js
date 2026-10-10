@@ -16,9 +16,10 @@ const getManufacturerById = (req, res) => {
   });
 };
 
-const createManufacturers = (req, res) => {
-  const data = req.body;
-  console.log("data >>>", data);
+const createManufacturers = async (req, res) => {
+  const { manufacturer } = req.body;
+  const newManufacturer = await Manufacturers.create(manufacturer);
+  console.log("data >>>", newManufacturer);
   res.status(200).json({
     success: true,
     message: `${req.method}- request to Manufacturer endpoint`,
