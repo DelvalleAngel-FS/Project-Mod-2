@@ -1,56 +1,52 @@
 const Cars = require("../models/Cars");
 
 const getALLCars = async (req, res) => {
-  const manufacturers = await Manufacturers.find({});
+  const cars = await Cars.find({});
   res.status(200).json({
-    data: manufacturers,
+    data: cars,
     success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
+    message: `${req.method}- request to Car endpoint`,
   });
 };
 
-const getCarById = (req, res) => {
-  const { id } = req.params;
+const getCarById = async (req, res) => {
+  const car = await Cars.findById(req.params.id);
   res.status(200).json({
-    id,
+    data: car,
     success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
+    message: `${req.method}- request to Car endpoint`,
   });
 };
 
 const createCars = async (req, res) => {
-  const { manufacturer } = req.body;
-  const newManufacturer = await Manufacturers.create(manufacturer);
-  console.log("data >>>", newManufacturer);
+  const { car } = req.body;
+  const newCar = await Cars.create(car);
+  console.log("data >>>", newCar);
   res.status(200).json({
     success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
+    message: `${req.method}- request to Car endpoint`,
   });
 };
 
 const updateCar = async (req, res) => {
   const { id } = req.params;
-  const manufacturer = await Manufacturers.findByIdAndUpdate(id, req.body, {
+  const car = await Cars.findByIdAndUpdate(id, req.body, {
     new: true,
   });
   res.status(200).json({
-    data: manufacturer,
+    data: car,
     success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
+    message: `${req.method}- request to Car endpoint`,
   });
 };
 
 const deleteCar = async (req, res) => {
   const { id } = req.params;
-  const deleteManufacturer = await Manufacturers.findByIdAndDelete(
-    id,
-    req.body,
-    { new: true },
-  );
+  const deleteCar = await Cars.findByIdAndDelete(id, req.body, { new: true });
   res.status(200).json({
-    data: deleteManufacturer,
+    data: deleteCar,
     success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
+    message: `${req.method}- request to Car endpoint`,
   });
 };
 

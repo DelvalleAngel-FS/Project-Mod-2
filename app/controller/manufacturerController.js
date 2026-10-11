@@ -9,10 +9,10 @@ const getALLManufacturers = async (req, res) => {
   });
 };
 
-const getManufacturerById = (req, res) => {
-  const { id } = req.params;
+const getManufacturerById = async (req, res) => {
+  const manufacturer = await Manufacturers.findById(req.params.id);
   res.status(200).json({
-    id,
+    data: manufacturer,
     success: true,
     message: `${req.method}- request to Manufacturer endpoint`,
   });
