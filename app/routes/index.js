@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const manufacturerRoutes = require("./manufacturerRoutes");
+const carRoutes = require("./carRoutes");
 
 router.get("/", (req, res) => {
   res
@@ -9,5 +10,6 @@ router.get("/", (req, res) => {
 });
 
 router.use("/manufacturer", manufacturerRoutes);
+router.use("/car", carRoutes);
 
 module.exports = router;
