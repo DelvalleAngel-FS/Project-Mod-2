@@ -23,6 +23,7 @@ const createCars = async (req, res) => {
   const newCar = await Cars.create(car);
   console.log("data >>>", newCar);
   res.status(200).json({
+    data: newCar,
     success: true,
     message: `${req.method}- request to Car endpoint`,
   });

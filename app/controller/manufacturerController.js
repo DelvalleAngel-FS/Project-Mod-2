@@ -23,6 +23,7 @@ const createManufacturers = async (req, res) => {
   const newManufacturer = await Manufacturers.create(manufacturer);
   console.log("data >>>", newManufacturer);
   res.status(200).json({
+    data: newManufacturer,
     success: true,
     message: `${req.method}- request to Manufacturer endpoint`,
   });
@@ -34,7 +35,7 @@ const updateManufacturer = async (req, res) => {
     new: true,
   });
   res.status(200).json({
-    data: manufacturer,
+    id,
     success: true,
     message: `${req.method}- request to Manufacturer endpoint`,
   });
