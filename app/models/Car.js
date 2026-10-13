@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
 
-const carsSchema = new mongoose.Schema(
-  {
-    make: String,
-    model: String,
-    year: Number,
-    isActive: { type: Boolean, default: true },
+const carsSchema = new mongoose.Schema({
+  make: String,
+  model: String,
+  year: Number,
+  isActive: { type: Boolean, default: true },
+  manufacturer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Manufacturer",
   },
-  {
-    manufacturer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Manufacturer",
-    },
-  },
-);
+});
 
 module.exports = mongoose.model("Car", carsSchema);

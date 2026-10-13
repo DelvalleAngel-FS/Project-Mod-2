@@ -36,6 +36,7 @@ const updateManufacturer = async (req, res) => {
     new: true,
   });
   res.status(200).json({
+    manufacturer,
     id,
     success: true,
     message: `${req.method}- request to Manufacturer endpoint`,

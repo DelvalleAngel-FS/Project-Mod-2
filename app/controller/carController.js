@@ -20,14 +20,27 @@ const getCarById = async (req, res) => {
 };
 
 const createCars = async (req, res) => {
-  const { car } = req.body;
-  const newCar = await Car.create(car);
-  console.log("data >>>", newCar);
-  res.status(200).json({
-    data: newCar,
-    success: true,
-    message: `${req.method}- request to Manufacturer endpoint`,
-  });
+  try {
+    const { car } = req.body;
+    const user = await Manufacturer.findById(car.manufacturer);
+    car.manufacturer = user;
+    const carData = new Car(car);
+    user.cars.push(carData._id);
+    //saves the car and user data
+    const queries = [carData.save(), user.save()];
+    await Promise.all(queries);
+    // console.log("data >>>", newCar);
+    res.status(200).json({
+      data: carData,
+      success: true,
+      message: `${req.method}- request to Manufacturer endpoint`,
+    });
+  } catch ({ message }) {
+    res.status(500).json({
+      success: false,
+      message,
+    });
+  }
 };
 
 const updateCar = async (req, res) => {
