@@ -1,4 +1,5 @@
-const Manufacturers = require("../models/Manufacturers");
+const Manufacturers = require("../models/Manufacturer");
+const Car = require("../models/Car");
 
 const getALLManufacturers = async (req, res) => {
   const manufacturers = await Manufacturers.find({});

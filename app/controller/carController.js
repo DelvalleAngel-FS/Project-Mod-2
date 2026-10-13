@@ -1,16 +1,17 @@
-const Cars = require("../models/Cars");
+const Car = require("../models/Car");
+const Manufacturer = require("../models/Manufacturer");
 
 const getALLCars = async (req, res) => {
-  const cars = await Cars.find({});
+  const car = await Car.find({});
   res.status(200).json({
-    data: cars,
+    data: car,
     success: true,
     message: `${req.method}- request to Car endpoint`,
   });
 };
 
 const getCarById = async (req, res) => {
-  const car = await Cars.findById(req.params.id);
+  const car = await Car.findById(req.params.id);
   res.status(200).json({
     data: car,
     success: true,
@@ -20,18 +21,18 @@ const getCarById = async (req, res) => {
 
 const createCars = async (req, res) => {
   const { car } = req.body;
-  const newCar = await Cars.create(car);
+  const newCar = await Car.create(car);
   console.log("data >>>", newCar);
   res.status(200).json({
     data: newCar,
     success: true,
-    message: `${req.method}- request to Car endpoint`,
+    message: `${req.method}- request to Manufacturer endpoint`,
   });
 };
 
 const updateCar = async (req, res) => {
   const { id } = req.params;
-  const car = await Cars.findByIdAndUpdate(id, req.body, {
+  const car = await Car.findByIdAndUpdate(id, req.body, {
     new: true,
   });
   res.status(200).json({
@@ -43,7 +44,7 @@ const updateCar = async (req, res) => {
 
 const deleteCar = async (req, res) => {
   const { id } = req.params;
-  const deleteCar = await Cars.findByIdAndDelete(id, req.body, { new: true });
+  const deleteCar = await Car.findByIdAndDelete(id, req.body, { new: true });
   res.status(200).json({
     data: deleteCar,
     success: true,

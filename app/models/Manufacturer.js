@@ -8,10 +8,12 @@ const manufacturersSchema = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
   },
   {
-    car: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Car",
-    },
+    car: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Car",
+      },
+    ],
   },
 );
 
