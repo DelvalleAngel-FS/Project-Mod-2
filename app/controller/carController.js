@@ -2,19 +2,12 @@ const Car = require("../models/Car");
 const Manufacturer = require("../models/Manufacturer");
 
 const getALLCars = async (req, res) => {
-  try {
-    const car = await Car.find({});
-    res.status(200).json({
-      data: car,
-      success: true,
-      message: `${req.method}- request to Car endpoint`,
-    });
-  } catch ({ message }) {
-    res.status(500).json({
-      success: false,
-      message,
-    });
-  }
+  const car = await Car.find({});
+  res.status(200).json({
+    data: car,
+    success: true,
+    message: `${req.method}- request to Car endpoint`,
+  });
 };
 
 const getCarById = async (req, res) => {
