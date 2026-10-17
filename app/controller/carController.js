@@ -2,7 +2,35 @@ const Car = require("../models/Car");
 const Manufacturer = require("../models/Manufacturer");
 
 const getALLCars = async (req, res) => {
-  const car = await Car.find({});
+  //Create a copy of query object to isolate filters
+  const reqQuery = JSON.parse(JSON.stringify(req.query));
+  //Fields to exclude from the core matching filters
+  const removeFields = ["select", "sort", "sheet", "limit"];
+  removeFields.forEach((param) => delete reqQuery[param]);
+  //2. Converting filters to json and inject mongoose operators
+  let queryString = JSON.stringify(reqQuery);
+  queryString = queryString.replace(
+    /\b(gt|gte|lt|lte|in|nin)\b/g,
+    (match) => `$${match}`,
+  );
+  let query = Car.find(JSON.parse(queryString));
+  console.log("MONGOOSE FILTER:", JSON.stringify(JSON.parse(queryString)));
+  if (req.query.select) {
+    const fields = req.query.select.split(",").join(" ");
+    query = query.select(fields);
+  }
+  //Handling Sort
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    query = query.sort(sortBy);
+  }
+  //Handling Pagination
+  const sheet = parseInt(req.query.sheet) || 1;
+  const limit = parseInt(req.query.limit) || 3;
+  const skip = (sheet - 1) * limit;
+
+  query = query.skip(skip).limit(limit);
+  const car = await query;
   res.status(200).json({
     data: car,
     success: true,

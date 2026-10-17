@@ -2,19 +2,36 @@ const Manufacturers = require("../models/Manufacturer");
 const Car = require("../models/Car");
 
 const getALLManufacturers = async (req, res) => {
-  try {
-    const manufacturers = await Manufacturers.find({});
-    res.status(200).json({
-      data: manufacturers,
-      success: true,
-      message: `${req.method}- request to Manufacturer endpoint`,
-    });
-  } catch ({ message }) {
-    res.status(500).json({
-      success: false,
-      message,
-    });
+  const reqQuery = { ...req.query };
+  const removeFields = ["select", "sheet", "limit"];
+  removeFields.forEach((param) => delete reqQuery[param]);
+
+  let queryString = JSON.stringify(reqQuery);
+
+  queryString = queryString.replace(
+    /\b(gt|gte|lt|lte|in|nin)\b/g,
+    (match) => `$${match}`,
+  );
+
+  let query = Manufacturers.find(JSON.parse(queryString));
+
+  if (req.query.select) {
+    const fields = req.query.select.split(",").join(" ");
+    query = query.select(fields);
   }
+
+  const sheet = parseInt(req.query.sheet) || 1;
+  const limit = parseInt(req.query.limit) || 3;
+  const skip = (sheet - 1) * limit;
+
+  query = query.skip(skip).limit(limit);
+
+  const manufacturers = await query;
+  res.status(200).json({
+    data: manufacturers,
+    success: true,
+    message: `${req.method}- request to Manufacturer endpoint`,
+  });
 };
 
 const getManufacturerById = async (req, res) => {
