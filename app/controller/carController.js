@@ -14,7 +14,7 @@ const getALLCars = async (req, res) => {
     (match) => `$${match}`,
   );
   let query = Car.find(JSON.parse(queryString));
-  console.log("MONGOOSE FILTER:", JSON.stringify(JSON.parse(queryString)));
+
   if (req.query.select) {
     const fields = req.query.select.split(",").join(" ");
     query = query.select(fields);
